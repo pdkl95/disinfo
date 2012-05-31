@@ -15,6 +15,8 @@ dnl ----------------------------------------
 
 dnl C language
 AC_PROG_CC
+gl_EARLY
+gl_INIT
 
 dnl library support
 AC_PROG_RANLIB
@@ -22,8 +24,8 @@ AC_PROG_RANLIB
 dnl standard depends
 AC_TYPE_SIZE_T
 AC_FUNC_MALLOC
-AC_CHECK_HEADERS([stdlib.h string.h libgen.h])
-AC_CHECK_FUNCS([basename sprintf strdup strdupa strlen])
+AC_CHECK_HEADERS([stdlib.h string.h])
+AC_CHECK_FUNCS([sprintf strlen])
 
 dnl we need libeinfo
 
@@ -141,5 +143,6 @@ LIBS="$LIBS $EINFO_LIBS"
 dnl ----------------------------------------
 
 AC_CONFIG_FILES([Makefile
+                lib/Makefile
                 src/Makefile])
 AC_OUTPUT

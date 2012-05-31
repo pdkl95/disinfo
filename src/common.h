@@ -8,9 +8,7 @@
 #include <string.h>
 #include <einfo.h>
 
-#if HAVE_LIBGEN_H
-# include <libgen.h>
-#endif
+#include "dirname.h"
 
 #if __STDC__
 # define VOID void

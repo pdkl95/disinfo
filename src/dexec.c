@@ -1,6 +1,7 @@
 #include <common.h>
 
 char *progname;
+char *message;
 
 void usage(void)
 {
@@ -11,24 +12,14 @@ void usage(void)
 
 int main(int argc, char *argv[])
 {
-#ifdef HAVE_LIBGEN_H
-    /* XPG version */
-# ifdef HAVE_STRDUPA
-    char *progpath = strdupa(argv[0]);
-# else
-    char *progpath = strdup(argv[0]);
-# endif
-    progname = basename(progpath);
-#else
-    /* GNU version */
-    progname = argv[0];
-    progname = basename(argv[0]);
-#endif
+    progname = base_name(argv[0]);
 
     if (argc < 2) {
         usage();
         exit(EXIT_FAILURE);
     }
+
+    message = argv[1];
 
 
 }
