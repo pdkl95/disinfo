@@ -22,8 +22,8 @@ AC_PROG_RANLIB
 dnl standard depends
 AC_TYPE_SIZE_T
 AC_FUNC_MALLOC
-AC_CHECK_HEADERS([stdlib.h string.h])
-AC_CHECK_FUNCS([strlen sprintf])
+AC_CHECK_HEADERS([stdlib.h string.h libgen.h])
+AC_CHECK_FUNCS([basename sprintf strdup strdupa strlen])
 
 dnl we need libeinfo
 

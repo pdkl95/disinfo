@@ -1,11 +1,16 @@
 #ifndef COMMON_H
 #define COMMON_H
 
+#include "config.h"
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <einfo.h>
+
+#if HAVE_LIBGEN_H
+# include <libgen.h>
+#endif
 
 #if __STDC__
 # define VOID void

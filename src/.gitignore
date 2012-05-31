@@ -1,0 +1,11 @@
+*.o
+libdinfo.a
+.deps
+dbegin
+dend
+derror
+dexec
+dindent
+dinfo
+doutdent
+dwarn
