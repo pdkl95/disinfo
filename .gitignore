@@ -6,3 +6,8 @@ config.status
 Makefile
 stamp-h1
 lib/.deps
+lib/*.o
+lib/*.h
+lib/sys/*.h
+lib/libgnu.a
+*/*~

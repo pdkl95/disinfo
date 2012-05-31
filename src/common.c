@@ -1,17 +1,5 @@
 #include "common.h"
 
-static VOID *
-xmalloc(size_t n)
-{
-    VOID *p;
-    p = malloc(n);
-    if (p == 0) {
-        fprintf(stderr, "dinfo: Memory exhausted");
-        exit(EXIT_FAILURE);
-    }
-    return p;
-}
-
 char *
 argv2str(int argc, char *argv[])
 {

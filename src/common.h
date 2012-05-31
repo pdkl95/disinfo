@@ -9,12 +9,7 @@
 #include <einfo.h>
 
 #include "dirname.h"
-
-#if __STDC__
-# define VOID void
-#else
-# define VOID char
-#endif
+#include "xalloc.h"
 
 char * argv2str(int argc, char *argv[]);
 

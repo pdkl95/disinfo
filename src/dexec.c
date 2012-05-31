@@ -12,6 +12,8 @@ void usage(void)
 
 int main(int argc, char *argv[])
 {
+    int retval;
+
     progname = base_name(argv[0]);
 
     if (argc < 2) {
@@ -20,6 +22,9 @@ int main(int argc, char *argv[])
     }
 
     message = argv[1];
+    ebegin("%s", message);
 
 
+    eend(retval, "%s", message);
+    return retval;
 }
