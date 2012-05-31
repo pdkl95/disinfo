@@ -9,6 +9,7 @@
 #include <einfo.h>
 
 #include "dirname.h"
+#include "execute.h"
 #include "xalloc.h"
 
 char * argv2str(int argc, char *argv[]);
