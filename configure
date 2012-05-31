@@ -13005,83 +13005,6 @@ elif test "x$prefix" != "xNONE"; then
 fi
 
 
-# AC_MSG_CHECKING(for libeinfo)
-# if test "x$einfo_prefix" = "xno" ; then
-#   no_einfo="disabled"
-#   enable_einfotest="no"
-# else
-#   no_einfo=""
-# fi
-
-
-# if test "x$enable_einfotest" = "xyes" ; then
-#   ac_save_CFLAGS="$CFLAGS"
-#   ac_save_LIBS="$LIBS"
-#   CFLAGS="$CFLAGS $EINFO_CFLAGS"
-#   LIBS="$LIBS $EINFO_LIBS"
-# dnl Now check if the installed Einfo is sufficiently new.
-#   rm -f conf.einfotest
-#   AC_TRY_RUN([
-# #include <stdio.h>
-# #include <stdlib.h>
-# #include <string.h>
-# #include <einfo.h>
-
-# void test() {
-#   einfo("test");
-# }
-
-# int main ()
-# {
-#   system("touch conf.einfotest");
-#   return 0;
-# }
-
-# ],, no_einfo=yes,[echo $ac_n "cross compiling; assumed OK... $ac_c"])
-#      CFLAGS="$ac_save_CFLAGS"
-#      LIBS="$ac_save_LIBS"
-# fi
-
-# if test "x$no_einfo" = "xdisabled" ; then
-#    AC_MSG_RESULT(no)
-#    ifelse([$2], , :, [$2])
-# elif test "x$no_einfo" = "x" ; then
-#    AC_MSG_RESULT(yes)
-#    ifelse([$1], , :, [$1])
-# else
-#    AC_MSG_RESULT(no)
-#    if test -f conf.einfotest ; then
-#      :
-#    else
-#      echo "*** Could not run einfo test program, checking why..."
-#      CFLAGS="$CFLAGS $EINFO_CFLAGS"
-#      LIBS="$LIBS $EINFO_LIBS"
-#      AC_TRY_LINK([
-# #include <stdio.h>
-# #include <einfo/einfo.h>
-# ],   [ return 0; ],
-#      [ echo "*** The test program compiled, but did not run. This usually means"
-#      echo "*** that the run-time linker is not finding OpenRC's libeinfo or finding the wrong"
-#      echo "*** the wrong version. If it is not finding libeinfo, you'll need to set your"
-#      echo "*** LD_LIBRARY_PATH environment variable, or edit /etc/ld.so.conf to point"
-#      echo "*** to the installed location  Also, make sure you have run ldconfig if that"
-#      echo "*** is required on your system"],
-#      [ echo "*** The test program failed to compile or link. See the file config.log for the"
-#      echo "*** exact error that occured. This usually means libeinfo was incorrectly installed"
-#      echo "*** or that you have moved libeinfo since it was installed."
-#      echo "***"
-#      echo "*** libeinfo is part of the OpenRC package - is it installed?"])
-#      CFLAGS="$ac_save_CFLAGS"
-#      LIBS="$ac_save_LIBS"
-#    fi
-#    EINFO_CFLAGS=""
-#    EINFO_LIBS=""
-#    ifelse([$2], , :, [$2])
-# fi
-# rm -f conf.einfotest
-
-
-
 
 CFLAGS="$CFLAGS $EINFO_CFLAGS"
 LIBS="$LIBS $EINFO_LIBS"
@@ -14610,4 +14533,5 @@ if test -n "$ac_unrecognized_opts" && test "$enable_option_checking" != no; then
   { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: unrecognized options: $ac_unrecognized_opts" >&5
 $as_echo "$as_me: WARNING: unrecognized options: $ac_unrecognized_opts" >&2;}
 fi
+
 
