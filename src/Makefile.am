@@ -17,7 +17,7 @@
 # along with edisinfo.  If not, see <http://www.gnu.org/licenses/>.    #
 ########################################################################
 
-bin_PROGRAMS = dinfo dwarn derror dbegin dend dindent doutdent dexec
+bin_PROGRAMS = dinfo dwarn derror dbegin dend dindent doutdent dexec dshowexec
 
 AM_CPPFLAGS = -I$(top_builddir)/lib -I$(top_srcdir)/lib
 

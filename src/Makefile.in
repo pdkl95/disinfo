@@ -56,7 +56,7 @@ build_triplet = @build@
 host_triplet = @host@
 bin_PROGRAMS = dinfo$(EXEEXT) dwarn$(EXEEXT) derror$(EXEEXT) \
 	dbegin$(EXEEXT) dend$(EXEEXT) dindent$(EXEEXT) \
-	doutdent$(EXEEXT) dexec$(EXEEXT)
+	doutdent$(EXEEXT) dexec$(EXEEXT) dshowexec$(EXEEXT)
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -136,6 +136,10 @@ doutdent_SOURCES = doutdent.c
 doutdent_OBJECTS = doutdent.$(OBJEXT)
 doutdent_LDADD = $(LDADD)
 doutdent_DEPENDENCIES = libdinfo.a $(top_builddir)/lib/libgnu.a
+dshowexec_SOURCES = dshowexec.c
+dshowexec_OBJECTS = dshowexec.$(OBJEXT)
+dshowexec_LDADD = $(LDADD)
+dshowexec_DEPENDENCIES = libdinfo.a $(top_builddir)/lib/libgnu.a
 dwarn_SOURCES = dwarn.c
 dwarn_OBJECTS = dwarn.$(OBJEXT)
 dwarn_LDADD = $(LDADD)
@@ -149,9 +153,9 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 SOURCES = $(libdinfo_a_SOURCES) dbegin.c dend.c derror.c dexec.c \
-	dindent.c dinfo.c doutdent.c dwarn.c
+	dindent.c dinfo.c doutdent.c dshowexec.c dwarn.c
 DIST_SOURCES = $(libdinfo_a_SOURCES) dbegin.c dend.c derror.c dexec.c \
-	dindent.c dinfo.c doutdent.c dwarn.c
+	dindent.c dinfo.c doutdent.c dshowexec.c dwarn.c
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -813,6 +817,9 @@ dinfo$(EXEEXT): $(dinfo_OBJECTS) $(dinfo_DEPENDENCIES)
 doutdent$(EXEEXT): $(doutdent_OBJECTS) $(doutdent_DEPENDENCIES) 
 	@rm -f doutdent$(EXEEXT)
 	$(LINK) $(doutdent_OBJECTS) $(doutdent_LDADD) $(LIBS)
+dshowexec$(EXEEXT): $(dshowexec_OBJECTS) $(dshowexec_DEPENDENCIES) 
+	@rm -f dshowexec$(EXEEXT)
+	$(LINK) $(dshowexec_OBJECTS) $(dshowexec_LDADD) $(LIBS)
 dwarn$(EXEEXT): $(dwarn_OBJECTS) $(dwarn_DEPENDENCIES) 
 	@rm -f dwarn$(EXEEXT)
 	$(LINK) $(dwarn_OBJECTS) $(dwarn_LDADD) $(LIBS)
@@ -831,6 +838,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dindent.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dinfo.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/doutdent.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dshowexec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dwarn.Po@am__quote@
 
 .c.o:
