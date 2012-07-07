@@ -19,12 +19,13 @@ dnl along with edisinfo.  If not, see <http://www.gnu.org/licenses/>.
 
 
 
+AC_PREREQ(2.60)
 AC_INIT([edisinfo], [1.0], [edisinfo@thoughtnoise.net])
-AM_INIT_AUTOMAKE([foreign no-define dist-bzip2 color-tests])
+AC_CONFIG_AUX_DIR([build-aux])
+AC_CONFIG_MACRO_DIR([m4])
+AM_INIT_AUTOMAKE([1.6 foreign no-define dist-bzip2 color-tests])
 
 AC_CONFIG_SRCDIR([dinfo.c])
-
-AC_PREREQ(2.60)
 
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_SRCDIR([src/dinfo.c])
@@ -35,9 +36,6 @@ dnl C language
 AC_PROG_CC
 gl_EARLY
 gl_INIT
-
-dnl library support
-AC_PROG_RANLIB
 
 dnl standard depends
 AC_TYPE_SIZE_T
