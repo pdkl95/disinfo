@@ -28,5 +28,5 @@ int main(int argc, char *argv[])
         argv++;
     }
     eend(retval, "%s",argv2str(argc, argv));
-    return EXIT_SUCCESS;
+    return retval;
 }
