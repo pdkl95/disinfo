@@ -56,7 +56,8 @@ build_triplet = @build@
 host_triplet = @host@
 bin_PROGRAMS = dinfo$(EXEEXT) dwarn$(EXEEXT) derror$(EXEEXT) \
 	dbegin$(EXEEXT) dend$(EXEEXT) dindent$(EXEEXT) \
-	doutdent$(EXEEXT) dexec$(EXEEXT) dshowexec$(EXEEXT)
+	doutdent$(EXEEXT) dexec$(EXEEXT) dshowexec$(EXEEXT) \
+	derrmsg$(EXEEXT)
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -116,6 +117,10 @@ dend_SOURCES = dend.c
 dend_OBJECTS = dend.$(OBJEXT)
 dend_LDADD = $(LDADD)
 dend_DEPENDENCIES = libdinfo.a $(top_builddir)/lib/libgnu.a
+derrmsg_SOURCES = derrmsg.c
+derrmsg_OBJECTS = derrmsg.$(OBJEXT)
+derrmsg_LDADD = $(LDADD)
+derrmsg_DEPENDENCIES = libdinfo.a $(top_builddir)/lib/libgnu.a
 derror_SOURCES = derror.c
 derror_OBJECTS = derror.$(OBJEXT)
 derror_LDADD = $(LDADD)
@@ -152,10 +157,11 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-SOURCES = $(libdinfo_a_SOURCES) dbegin.c dend.c derror.c dexec.c \
-	dindent.c dinfo.c doutdent.c dshowexec.c dwarn.c
-DIST_SOURCES = $(libdinfo_a_SOURCES) dbegin.c dend.c derror.c dexec.c \
-	dindent.c dinfo.c doutdent.c dshowexec.c dwarn.c
+SOURCES = $(libdinfo_a_SOURCES) dbegin.c dend.c derrmsg.c derror.c \
+	dexec.c dindent.c dinfo.c doutdent.c dshowexec.c dwarn.c
+DIST_SOURCES = $(libdinfo_a_SOURCES) dbegin.c dend.c derrmsg.c \
+	derror.c dexec.c dindent.c dinfo.c doutdent.c dshowexec.c \
+	dwarn.c
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -802,6 +808,9 @@ dbegin$(EXEEXT): $(dbegin_OBJECTS) $(dbegin_DEPENDENCIES)
 dend$(EXEEXT): $(dend_OBJECTS) $(dend_DEPENDENCIES) 
 	@rm -f dend$(EXEEXT)
 	$(LINK) $(dend_OBJECTS) $(dend_LDADD) $(LIBS)
+derrmsg$(EXEEXT): $(derrmsg_OBJECTS) $(derrmsg_DEPENDENCIES) 
+	@rm -f derrmsg$(EXEEXT)
+	$(LINK) $(derrmsg_OBJECTS) $(derrmsg_LDADD) $(LIBS)
 derror$(EXEEXT): $(derror_OBJECTS) $(derror_DEPENDENCIES) 
 	@rm -f derror$(EXEEXT)
 	$(LINK) $(derror_OBJECTS) $(derror_LDADD) $(LIBS)
@@ -833,6 +842,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/common.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dbegin.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dend.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/derrmsg.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/derror.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dexec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dindent.Po@am__quote@
