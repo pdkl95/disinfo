@@ -83,3 +83,4 @@
 /wait-process.c
 /wait-process.h
 /waitpid.c
+/dummy.c
