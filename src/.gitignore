@@ -1,8 +1,10 @@
 *.o
+error_code_macros.h
 libdinfo.a
 .deps
 dbegin
 dend
+derrmsg
 derror
 dexec
 dindent

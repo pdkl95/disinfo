@@ -30,27 +30,31 @@ char *errmsg;
 
 #define ERR_UNKNOWN -1
 
-#define E(name) if (!strcmp("E" #name, str)) { return E##name; }
+
 
 int parse_err_name(char *str)
 {
-    E(PERM);
-    E(NOENT);
-    E(SRCH);
-    E(IO);
-    E(NXIO);
-    E(2BIG);
+#define E(name) if (!strcmp("E" #name, str)) { return E##name; }
+#define REPL(A,B) if (!strcmp(#A, str)) { str = #B; }
+
+    REPL(EDEADLOCK,   EDEADLK);
+    REPL(EWOULDBLOCK, EAGAIN);
+
+#include "error_code_macros.h"
+
+#undef REPL
+#undef E
 
     return ERR_UNKNOWN;
 }
 
-BOOL is_int(char *s) {
+bool is_int(char *s) {
     for (; *s; s++) {
-        if (!is_digit(*s)) {
-            return 0;
+        if (!isdigit(*s)) {
+            return false;
         }
     }
-    return 1;
+    return true;
 }
 
 void usage(void)
@@ -87,16 +91,26 @@ int main(int argc, char *argv[])
         errnum = parse_err_name(err);
     }
 
-    if (ERR_UNKNOWN == errnum) {
-        errmsg = "unknown error";
-    } else {
-        errmsg = strerror(errnum);
-    }
 
-    if (srcprog) {
-        eerror("%s: %s", srcprog, errmsg);
+    if (errnum) {
+        if (ERR_UNKNOWN == errnum) {
+            errmsg = "unknown error";
+        } else {
+            errmsg = strerror(errnum);
+        }
+
+        if (srcprog) {
+            eerror("%s: %s", srcprog, errmsg);
+        } else {
+            eerror("%s", errmsg);
+        }
     } else {
-        eerror("%s", errmsg);
+        errmsg = "success";
+        if (srcprog) {
+            einfo("%s: %s", srcprog, errmsg);
+        } else {
+            einfo("%s", errmsg);
+        }
     }
 
     // force all out-of-range codes to a generic code

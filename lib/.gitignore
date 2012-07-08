@@ -84,3 +84,4 @@
 /wait-process.h
 /waitpid.c
 /dummy.c
+/ctype.in.h

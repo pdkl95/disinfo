@@ -62,3 +62,4 @@
 /time_h.m4
 /wait-process.m4
 /waitpid.m4
+/ctype.m4
