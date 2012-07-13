@@ -19,8 +19,12 @@
 
 #include "common.h"
 
+char *local_usage = USAGE_STANDARD_MESSAGE;
+
 int main(int argc, char *argv[])
 {
+    common_options(&argc, &argv);
+
     einfo("%s",argv2str(argc, argv));
     return EXIT_SUCCESS;
 }

@@ -19,6 +19,68 @@
 
 #include "common.h"
 
+char *progname;
+
+void
+show_version(FILE *stream)
+{
+    fprintf(stream, "%s %s\n", progname, PACKAGE_VERSION);
+    fprintf(stream, "%s %s\n", PACKAGE_NAME, PACKAGE_VERSION);
+    fprintf(stream, "\nWritten by %s.\n", "Brent Sanders");
+    fprintf(stream, "Send bugs to: <%s>\n", PACKAGE_BUGREPORT);
+    fprintf(stream, "\nCopyright (C) %s %s\n%s", "2012", "Brent Sanders", "\
+This program is free software; you may redistribute it under the terms of\n\
+the GNU General Public License.  This program has absolutely no warranty.\n");
+}
+
+
+static void
+show_usage(FILE *stream)
+{
+    fprintf(stream, "usage: %s %s\n", progname, local_usage);
+}
+
+void
+common_options(int *argc_ptr, char **argv_ptr[])
+{
+    // local alias for the sake of pointer sanity
+    int    argc = *argc_ptr;
+    char **argv = *argv_ptr;
+
+    progname = base_name(*argv);
+
+    if (argc > 0) {
+        if (!strcmp(argv[1], "--help")) {
+            show_usage(stdout);
+            exit(EXIT_SUCCESS);
+        } else if (!strcmp(argv[1], "--version")) {
+            show_version(stdout);
+            exit(EXIT_SUCCESS);
+        }
+    }
+
+    // undo the local alias so any changes are
+    // passed back to the caller
+    *argc_ptr = argc;
+    *argv_ptr = argv;
+}
+
+void
+die_usage(char *msg)
+{
+    show_usage(stderr);
+    die(msg);
+}
+
+void
+die(char *msg)
+{
+    fprintf(stderr, "%s: ERROR: %s\n", progname, msg);
+    exit(EXIT_FAILURE);
+}
+
+
+
 char *
 argv2str(int argc, char *argv[])
 {

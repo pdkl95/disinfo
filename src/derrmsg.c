@@ -19,8 +19,7 @@
 
 #include "common.h"
 
-char *progname;
-
+char *local_usage = "<ERRNO> [<calling_program_name>]";
 
 char *err;
 char *srcprog;
@@ -48,7 +47,8 @@ int parse_err_name(char *str)
     return ERR_UNKNOWN;
 }
 
-bool is_int(char *s) {
+bool is_int(char *s)
+{
     for (; *s; s++) {
         if (!isdigit(*s)) {
             return false;
@@ -57,24 +57,16 @@ bool is_int(char *s) {
     return true;
 }
 
-void usage(void)
-{
-    fprintf(stderr,
-            "usage: %s <ERRNO> [<calling_program_name>]\n",
-            progname);
-}
-
 int main(int argc, char *argv[])
 {
-    progname = *argv;
+    common_options(&argc, &argv);
 
     if (argc > 0) {
         err = argv[1];
         argc--;
         argv++;
     } else {
-        usage();
-        exit(EXIT_FAILURE);
+        die_usage("Missing: <errno>");
     }
 
     if (argc > 0) {

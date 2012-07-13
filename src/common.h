@@ -34,6 +34,16 @@
 #include "execute.h"
 #include "xalloc.h"
 
+#define USAGE_STANDARD_MESSAGE "<your message> [<more mesage> [...]]"
+extern char *progname;
+extern char *local_usage;
+
+
+void show_Version(FILE *stream);
+void common_options(int *argc, char **argv[]);
+void die_usage(char *msg);
+void die(char *msg);
+
 char * argv2str(int argc, char *argv[]);
 char * strip_escape_codes(char *input_string);
 

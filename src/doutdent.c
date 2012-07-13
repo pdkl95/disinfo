@@ -19,8 +19,11 @@
 
 #include "common.h"
 
+char *local_usage = "";
+
 int main(int argc, char *argv[])
 {
+    common_options(&argc, &argv);
     eoutdent();
     return EXIT_SUCCESS;
 }

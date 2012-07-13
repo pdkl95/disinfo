@@ -20,7 +20,7 @@ dnl along with edisinfo.  If not, see <http://www.gnu.org/licenses/>.
 
 
 AC_PREREQ(2.60)
-AC_INIT([edisinfo], [1.3], [edisinfo@thoughtnoise.net])
+AC_INIT([edisinfo], [1.4], [edisinfo@thoughtnoise.net])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([1.6 foreign no-define dist-bzip2 color-tests])

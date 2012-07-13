@@ -19,24 +19,18 @@
 
 #include <common.h>
 
-char *progname;
+char *local_usage = " <command> [<param> [...]]\n";
+
 char *message;
 
-void usage(void)
-{
-    fprintf(stderr,
-            "usage: %s <command> [<param> [...]]\n",
-            progname);
-}
 
 int main(int argc, char *argv[])
 {
     int i;
-    progname = *argv; //base_name(*argv); argv++;
+    common_options(&argc, &argv);
 
     if (argc < 2) {
-        usage();
-        exit(EXIT_FAILURE);
+        die_usage("Missing: the <command> to run!");
     }
 
     char *cmdline = argv2str(argc, argv);

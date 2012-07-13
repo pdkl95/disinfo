@@ -19,8 +19,12 @@
 
 #include "common.h"
 
+char *local_usage = "<errval> [<error_message> [...]]";
+
 int main(int argc, char *argv[])
 {
+    common_options(&argc, &argv);
+
     int retval=0;
     if (argc > 1) {
         retval = atoi(argv[1]);

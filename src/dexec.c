@@ -19,25 +19,20 @@
 
 #include <common.h>
 
-char *progname;
-char *message;
+char *local_usage = "<message> <fail_message> <command> [<param> [...]]";
 
-void usage(void)
-{
-    fprintf(stderr,
-            "usage: %s <message> <fail_message> <command> [<param> [...]]\n",
-            progname);
-}
+char *message;
 
 int main(int argc, char *argv[])
 {
     int i;
-    progname = base_name(*argv); argv++;
+    common_options(&argc, &argv);
 
     if (argc < 4) {
-        usage();
-        exit(EXIT_FAILURE);
+        die_usage("missing requried parameters!");
     }
+
+    argv++;
 
     char *message = *argv; argv++; argc--;
     char *failmsg = *argv; argv++; argc--;
