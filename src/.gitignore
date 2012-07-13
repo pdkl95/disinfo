@@ -1,6 +1,6 @@
 *.o
 error_code_macros.h
-libdinfo.a
+lib*.a
 .deps
 dbegin
 dend

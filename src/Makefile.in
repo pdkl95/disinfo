@@ -103,52 +103,55 @@ CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LIBRARIES = $(noinst_LIBRARIES)
-libdinfo_a_AR = $(AR) $(ARFLAGS)
-libdinfo_a_LIBADD =
-am_libdinfo_a_OBJECTS = color.$(OBJEXT) common.$(OBJEXT)
-libdinfo_a_OBJECTS = $(am_libdinfo_a_OBJECTS)
+libcommon_a_AR = $(AR) $(ARFLAGS)
+libcommon_a_LIBADD =
+am_libcommon_a_OBJECTS = color.$(OBJEXT) common.$(OBJEXT)
+libcommon_a_OBJECTS = $(am_libcommon_a_OBJECTS)
+libindent_a_AR = $(AR) $(ARFLAGS)
+libindent_a_DEPENDENCIES = libcommon.a
+am_libindent_a_OBJECTS = indent.$(OBJEXT)
+libindent_a_OBJECTS = $(am_libindent_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 dbegin_SOURCES = dbegin.c
 dbegin_OBJECTS = dbegin.$(OBJEXT)
 dbegin_LDADD = $(LDADD)
-dbegin_DEPENDENCIES = libdinfo.a $(top_builddir)/lib/libgnu.a
+dbegin_DEPENDENCIES = libcommon.a $(top_builddir)/lib/libgnu.a
 dend_SOURCES = dend.c
 dend_OBJECTS = dend.$(OBJEXT)
 dend_LDADD = $(LDADD)
-dend_DEPENDENCIES = libdinfo.a $(top_builddir)/lib/libgnu.a
+dend_DEPENDENCIES = libcommon.a $(top_builddir)/lib/libgnu.a
 derrmsg_SOURCES = derrmsg.c
 derrmsg_OBJECTS = derrmsg.$(OBJEXT)
 derrmsg_LDADD = $(LDADD)
-derrmsg_DEPENDENCIES = libdinfo.a $(top_builddir)/lib/libgnu.a
+derrmsg_DEPENDENCIES = libcommon.a $(top_builddir)/lib/libgnu.a
 derror_SOURCES = derror.c
 derror_OBJECTS = derror.$(OBJEXT)
 derror_LDADD = $(LDADD)
-derror_DEPENDENCIES = libdinfo.a $(top_builddir)/lib/libgnu.a
+derror_DEPENDENCIES = libcommon.a $(top_builddir)/lib/libgnu.a
 dexec_SOURCES = dexec.c
 dexec_OBJECTS = dexec.$(OBJEXT)
 dexec_LDADD = $(LDADD)
-dexec_DEPENDENCIES = libdinfo.a $(top_builddir)/lib/libgnu.a
+dexec_DEPENDENCIES = libcommon.a $(top_builddir)/lib/libgnu.a
 dindent_SOURCES = dindent.c
 dindent_OBJECTS = dindent.$(OBJEXT)
-dindent_LDADD = $(LDADD)
-dindent_DEPENDENCIES = libdinfo.a $(top_builddir)/lib/libgnu.a
+am__DEPENDENCIES_1 = libindent.a $(LDADD)
+dindent_DEPENDENCIES = $(am__DEPENDENCIES_1)
 dinfo_SOURCES = dinfo.c
 dinfo_OBJECTS = dinfo.$(OBJEXT)
 dinfo_LDADD = $(LDADD)
-dinfo_DEPENDENCIES = libdinfo.a $(top_builddir)/lib/libgnu.a
+dinfo_DEPENDENCIES = libcommon.a $(top_builddir)/lib/libgnu.a
 doutdent_SOURCES = doutdent.c
 doutdent_OBJECTS = doutdent.$(OBJEXT)
-doutdent_LDADD = $(LDADD)
-doutdent_DEPENDENCIES = libdinfo.a $(top_builddir)/lib/libgnu.a
+doutdent_DEPENDENCIES = $(am__DEPENDENCIES_1)
 dshowexec_SOURCES = dshowexec.c
 dshowexec_OBJECTS = dshowexec.$(OBJEXT)
 dshowexec_LDADD = $(LDADD)
-dshowexec_DEPENDENCIES = libdinfo.a $(top_builddir)/lib/libgnu.a
+dshowexec_DEPENDENCIES = libcommon.a $(top_builddir)/lib/libgnu.a
 dwarn_SOURCES = dwarn.c
 dwarn_OBJECTS = dwarn.$(OBJEXT)
 dwarn_LDADD = $(LDADD)
-dwarn_DEPENDENCIES = libdinfo.a $(top_builddir)/lib/libgnu.a
+dwarn_DEPENDENCIES = libcommon.a $(top_builddir)/lib/libgnu.a
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__depfiles_maybe = depfiles
@@ -157,11 +160,12 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-SOURCES = $(libdinfo_a_SOURCES) dbegin.c dend.c derrmsg.c derror.c \
-	dexec.c dindent.c dinfo.c doutdent.c dshowexec.c dwarn.c
-DIST_SOURCES = $(libdinfo_a_SOURCES) dbegin.c dend.c derrmsg.c \
-	derror.c dexec.c dindent.c dinfo.c doutdent.c dshowexec.c \
-	dwarn.c
+SOURCES = $(libcommon_a_SOURCES) $(libindent_a_SOURCES) dbegin.c \
+	dend.c derrmsg.c derror.c dexec.c dindent.c dinfo.c doutdent.c \
+	dshowexec.c dwarn.c
+DIST_SOURCES = $(libcommon_a_SOURCES) $(libindent_a_SOURCES) dbegin.c \
+	dend.c derrmsg.c derror.c dexec.c dindent.c dinfo.c doutdent.c \
+	dshowexec.c dwarn.c
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -723,12 +727,19 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CPPFLAGS = -I$(top_builddir)/lib -I$(top_srcdir)/lib
-noinst_LIBRARIES = libdinfo.a
-libdinfo_a_SOURCES = \
+noinst_LIBRARIES = libcommon.a libindent.a
+libcommon_a_SOURCES = \
 	color.c color.h \
 	common.c common.h
 
-LDADD = libdinfo.a $(top_builddir)/lib/libgnu.a
+libindent_a_SOURCES = \
+	indent.c indent.h
+
+libindent_a_LIBADD = libcommon.a
+LDADD = libcommon.a $(top_builddir)/lib/libgnu.a
+LIBS_INDENT = libindent.a ${LDADD}
+dindent_LDADD = $(LIBS_INDENT)
+doutdent_LDADD = $(LIBS_INDENT)
 EXTRA_DIST = mkerrors.sh
 BUILT_SOURCES = error_code_macros.h
 ERRNO_DEPS = \
@@ -773,10 +784,14 @@ $(am__aclocal_m4_deps):
 
 clean-noinstLIBRARIES:
 	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
-libdinfo.a: $(libdinfo_a_OBJECTS) $(libdinfo_a_DEPENDENCIES) 
-	-rm -f libdinfo.a
-	$(libdinfo_a_AR) libdinfo.a $(libdinfo_a_OBJECTS) $(libdinfo_a_LIBADD)
-	$(RANLIB) libdinfo.a
+libcommon.a: $(libcommon_a_OBJECTS) $(libcommon_a_DEPENDENCIES) 
+	-rm -f libcommon.a
+	$(libcommon_a_AR) libcommon.a $(libcommon_a_OBJECTS) $(libcommon_a_LIBADD)
+	$(RANLIB) libcommon.a
+libindent.a: $(libindent_a_OBJECTS) $(libindent_a_DEPENDENCIES) 
+	-rm -f libindent.a
+	$(libindent_a_AR) libindent.a $(libindent_a_OBJECTS) $(libindent_a_LIBADD)
+	$(RANLIB) libindent.a
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
 	test -z "$(bindir)" || $(MKDIR_P) "$(DESTDIR)$(bindir)"
@@ -863,6 +878,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/doutdent.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dshowexec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dwarn.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/indent.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

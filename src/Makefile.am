@@ -20,13 +20,15 @@
 AM_CPPFLAGS = -I$(top_builddir)/lib -I$(top_srcdir)/lib
 
 
-noinst_LIBRARIES = libdinfo.a
-libdinfo_a_SOURCES = \
+noinst_LIBRARIES = libcommon.a libindent.a
+
+libcommon_a_SOURCES = \
 	color.c color.h \
 	common.c common.h
 
-#libdinfo_a_LDFLAGS = $(LTLIBINTL)
-
+libindent_a_SOURCES = \
+	indent.c indent.h
+libindent_a_LIBADD = libcommon.a
 
 bin_PROGRAMS = \
 	dinfo dwarn derror \
@@ -35,7 +37,12 @@ bin_PROGRAMS = \
 	dexec dshowexec \
 	derrmsg
 
-LDADD = libdinfo.a $(top_builddir)/lib/libgnu.a
+LDADD = libcommon.a $(top_builddir)/lib/libgnu.a
+
+LIBS_INDENT = libindent.a ${LDADD}
+
+dindent_LDADD = $(LIBS_INDENT)
+doutdent_LDADD = $(LIBS_INDENT)
 
 
 EXTRA_DIST = mkerrors.sh

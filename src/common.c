@@ -169,13 +169,3 @@ int dend(int retval, char *fmt, ...)
     va_end(args);
     return result;
 }
-
-int dindent(void)
-{
-    return 0;
-}
-
-int doutdent(void)
-{
-    return 0;
-}

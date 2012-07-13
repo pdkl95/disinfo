@@ -53,7 +53,4 @@ char * strip_escape_codes(char *input_string);
 int dbegin(char *fmt, ...);
 int dend(int retval, char *fmt, ...);
 
-int dindent(void);
-int doutdent(void);
-
 #endif /*COMMON_H*/
