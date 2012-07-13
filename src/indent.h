@@ -1,19 +1,23 @@
 #ifndef INDENT_H
 #define INDENT_H
 
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
+#include "common.h"
+
 #include <fcntl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include "isdir.h"
+#include "full-write.h"
+#include "read-file.h"
 #include "xvasprintf.h"
 
-#define ISTATE_DEPTH_DIGITS 2
-#define ISTATE_BUFLEN (1+ISTATE_DEPTH_DIGITS)
+#define INDENT_MAX 40
 
 extern int istate_depth;
-extern char istate_depth_string[];
+extern char *istate_depth_string;
 
-int get_current_indent(void);
+void indent_common_options(int *argc, char **argv[]);
 int dindent(void);
 int doutdent(void);
 

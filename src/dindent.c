@@ -17,13 +17,13 @@
  * along with disinfo.  If not, see <http://www.gnu.org/licenses/>.    *
  ************************************************************************/
 
-#include "common.h"
+#include "indent.h"
 
 char *local_usage = "";
 
 int main(int argc, char *argv[])
 {
-    common_options(&argc, &argv);
+    indent_common_options(&argc, &argv);
 
     dindent();
     return EXIT_SUCCESS;
