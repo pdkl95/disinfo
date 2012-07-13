@@ -29,7 +29,6 @@
 #include <stdarg.h>
 #include <string.h>
 #include <errno.h>
-#include <einfo.h>
 
 #include "dirname.h"
 #include "execute.h"
