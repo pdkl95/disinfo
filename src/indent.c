@@ -18,6 +18,7 @@ bool
 indent_state_init(void)
 {
     size_t len;
+    char *p;
 
     if (istate_depth_string) {
         return true;
@@ -26,7 +27,7 @@ indent_state_init(void)
     uid  = getuid();
     pid  = getpid();
     ppid = getppid();
-    printf("uid=%d ppid=%d pid=%d", uid, ppid, pid);
+    printf("uid=%d ppid=%d pid=%d\n", uid, ppid, pid);
 
     if (asprintf(&istate_dir, "/tmp/.disinfo-%d", uid) < 0) {
         derror("disinfo: asprintf failed: %s", strerror(errno));
@@ -34,25 +35,27 @@ indent_state_init(void)
     }
 
     if (!isdir(istate_dir)) {
-        mkdir(istate_dir, 0700);
+        if (!mkdir(istate_dir, 0700)) {
+            derror("disinfo: mkdir(%s, 0700) faild: %s", istate_dir, strerror(errno));
+        }
     }
 
     if (asprintf(&istate_file, "%s/indent-%d", istate_dir, ppid) < 0) {
         derror("disinfo: asprintf failed: %s", strerror(errno));
         goto fail_istate_init;
     }
-    printf("%s [good]\n", istate_file);
+    printf("file=\"%s\"\n", istate_file);
 
-    istate_depth_string = read_file(istate_file, &len);
-    if ((len < 1) ||
-        !istate_depth_string ||
-        (istate_depth_string[0] == '\0')) {
+    p = read_file(istate_file, &len);
+    if ((len < 1) || !p || (*p == '\0')) {
         goto fail_istate_init;
     }
 
+    printf("%d byptes, [%s]\n", (int)len, p);
 
-    printf("[%s]\n", istate_depth_string);
-    istate_depth = atoi(istate_depth_string);
+    istate_depth = atoi(p);
+    istate_depth_string = p;
+    printf("depth = %d\n", istate_depth);
     return true;
 
   fail_istate_init:
@@ -66,27 +69,33 @@ indent_state_save(void)
 {
     int fd;
     char *p;
+
+    printf("SAVE: %s value %d\n", istate_file, istate_depth);
+
     if (!istate_file) {
+        dwarn("disinfo: no filename to save to");
         goto fail_istate_save;
     }
 
     if (istate_depth < 1) {
+        dinfo("disinfo: istate_depth<1 -> jumpinto to unlink()");
         goto fail_istate_save;
     }
 
     fd = open(istate_file, O_WRONLY|O_TRUNC|O_CREAT, S_IRUSR|S_IWUSR);
     if (!fd) {
         derror("disinfo: open() failed: %s", strerror(errno));
+        goto fail_istate_save;
     }
 
     if (asprintf(&p, "%02d", istate_depth) < 0) {
         derror("disinfo: asprintf failed: %s", strerror(errno));
         goto fail_istate_save;
     }
-
-    if (full_write(fd, istate_depth_string, strlen(p)) < strlen(p)) {
+    printf("p=\"%s\"\n", p);
+    if (full_write(fd, p, strlen(p)) < strlen(p)) {
         derror("disinfo: write to failed: %s", strerror(errno));
-
+        goto fail_istate_save;
     }
 
     close(fd);
@@ -102,6 +111,8 @@ indent_state_save(void)
 int
 dindent(void)
 {
+    indent_state_init();
+
     istate_depth += 1;
     if (istate_depth > INDENT_MAX) {
         istate_depth = INDENT_MAX;
@@ -113,6 +124,8 @@ dindent(void)
 int
 doutdent(void)
 {
+    indent_state_init();
+
     istate_depth -= 1;
     if (istate_depth < 0) {
         istate_depth = 0;
@@ -121,10 +134,9 @@ doutdent(void)
     return indent_state_save();
 }
 
-
-void
-indent_common_options(int *argc, char **argv[])
+int
+get_indent(void)
 {
-    common_options(argc, argv);
     indent_state_init();
+    return istate_depth;
 }

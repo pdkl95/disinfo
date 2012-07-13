@@ -24,17 +24,26 @@
 
 #include <ctype.h>
 #include <errno.h>
+#include <fcntl.h>
 #include <stdarg.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 #include "dirname.h"
 #include "execute.h"
+#include "isdir.h"
+#include "full-write.h"
+#include "read-file.h"
 #include "xalloc.h"
+#include "xvasprintf.h"
 
 #include "color.h"
+#include "indent.h"
 
 #define USAGE_STANDARD_MESSAGE "<your message> [<more mesage> [...]]"
 extern char *progname;

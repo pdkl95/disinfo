@@ -149,6 +149,8 @@ int dbegin(char *fmt, ...)
     result = vfprintf(stdout, fmt, args);
     fputs(" ...\n",stdout);
 
+    dindent();
+
     va_end(args);
     return result;
 }
@@ -158,6 +160,8 @@ int dend(int retval, char *fmt, ...)
     int result;
     va_list args;
     va_start(args, fmt);
+
+    doutdent();
 
     if (retval) {
         dmarker_error(stdout, true);

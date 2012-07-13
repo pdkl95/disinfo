@@ -31,6 +31,7 @@ int main(int argc, char *argv[])
         argc--;
         argv++;
     }
+
     dend(retval, "%s",argv2str(argc, argv));
     return retval;
 }
