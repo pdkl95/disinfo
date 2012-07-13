@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
         failmsg = message;
     }
 
-    ebegin("%s", message);
+    dbegin("%s", message);
 
     argc--;
 
@@ -61,6 +61,6 @@ int main(int argc, char *argv[])
                          false, /*exit_on_error*/
                          NULL); /*termsigp*/
 
-    eend(retval, "%s", failmsg);
+    dend(retval, "%s", failmsg);
     return retval;
 }

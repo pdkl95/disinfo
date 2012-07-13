@@ -17,12 +17,26 @@
 # along with edisinfo.  If not, see <http://www.gnu.org/licenses/>.    #
 ########################################################################
 
+AM_CPPFLAGS = -I$(top_builddir)/lib -I$(top_srcdir)/lib
+
+
+noinst_LIBRARIES = libdinfo.a
+libdinfo_a_SOURCES = \
+	color.c color.h \
+	common.c common.h
+
+#libdinfo_a_LDFLAGS = $(LTLIBINTL)
+
+
 bin_PROGRAMS = \
 	dinfo dwarn derror \
 	dbegin dend \
 	dindent doutdent \
 	dexec dshowexec \
 	derrmsg
+
+LDADD = libdinfo.a $(top_builddir)/lib/libgnu.a
+
 
 EXTRA_DIST = mkerrors.sh
 BUILT_SOURCES = error_code_macros.h
@@ -40,12 +54,3 @@ error_code_macros.h: mkerrors.sh $(ERRNO_DEPS)
 distclean-local: distclean-local-error_code_macros
 distclean-local-error_code_macros:
 	rm -f $(top_builddir)/src/error_code_macros.h
-
-AM_CPPFLAGS = -I$(top_builddir)/lib -I$(top_srcdir)/lib
-
-LDADD = libdinfo.a $(top_builddir)/lib/libgnu.a
-
-noinst_LIBRARIES = libdinfo.a
-libdinfo_a_SOURCES = common.c common.h
-
-#libdinfo_a_LDFLAGS = $(LTLIBINTL)

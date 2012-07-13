@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
     for (i=0; i<argc; i++) {
         prog_args[i] = strip_escape_codes(argv[i]);
     }
-    ebegin("EXEC: %s", cmdline);
+    dbegin("EXEC: %s", cmdline);
 
     int retval = execute(prog, prog, prog_args,
                          false, /*ignore_sigpipe*/
@@ -53,6 +53,6 @@ int main(int argc, char *argv[])
                          false, /*exit_on_error*/
                          NULL); /*termsigp*/
 
-    eend(retval, "FAILED: %s", cmdline);
+    dend(retval, "FAILED: %s", cmdline);
     return retval;
 }

@@ -25,6 +25,6 @@ int main(int argc, char *argv[])
 {
     common_options(&argc, &argv);
 
-    eerror("%s",argv2str(argc, argv));
+    derror("%s",argv2str(argc, argv));
     return EXIT_SUCCESS;
 }

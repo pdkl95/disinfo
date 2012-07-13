@@ -20,7 +20,7 @@ dnl along with edisinfo.  If not, see <http://www.gnu.org/licenses/>.
 
 
 AC_PREREQ(2.60)
-AC_INIT([edisinfo], [1.4], [edisinfo@thoughtnoise.net])
+AC_INIT([edisinfo], [2.0], [edisinfo@thoughtnoise.net])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([1.6 foreign no-define dist-bzip2 color-tests])
@@ -41,43 +41,7 @@ dnl standard depends
 AC_TYPE_SIZE_T
 AC_FUNC_MALLOC
 AC_CHECK_HEADERS([stdlib.h string.h])
-AC_CHECK_FUNCS([sprintf strlen])
-
-dnl we need libeinfo
-
-AC_ARG_WITH(einfo,AC_HELP_STRING([--with-einfo=PFX],[Prefix where libeinfo is installed (optional)]), einfo_prefix="$withval", einfo_prefix="")
-AC_ARG_WITH(einfo-libraries,AC_HELP_STRING([--with-einfo-libraries=DIR],[Directory where einfo library is installed (optional)]), einfo_libraries="$withval", einfo_libraries="")
-AC_ARG_WITH(einfo-includes,AC_HELP_STRING([--with-einfo-includes=DIR],[Directory where einfo header files are installed (optional)]), einfo_includes="$withval", einfo_includes="")
-AC_ARG_ENABLE(einfotest,AC_HELP_STRING([--disable-einfotest],[Do not try to compile and run a test program for einfo program]),, enable_einfotest=yes)
-
-if test "x$einfo_libraries" != "x" ; then
-  EINFO_LIBS="-L$einfo_libraries"
-elif test "x$einfo_prefix" = "xno" || test "x$einfo_prefix" = "xyes" ; then
-  EINFO_LIBS=""
-elif test "x$einfo_prefix" != "x" ; then
-  EINFO_LIBS="-L$einfo_prefix/lib"
-elif test "x$prefix" != "xNONE" ; then
-  EINFO_LIBS="-L$prefix/lib"
-fi
-
-if test "x$einfo_prefix" != "xno" ; then
-  EINFO_LIBS="$EINFO_LIBS -leinfo"
-fi
-
-if test "x$einfo_includes" != "x" ; then
-  EINFO_CFLAGS="-I$einfo_includes"
-elif test "x$einfo_prefix" = "xno" || test "x$einfo_prefix" = "xyes" ; then
-  EINFO_CFLAGS=""
-elif test "x$einfo_prefix" != "x" ; then
-  EINFO_CFLAGS="-I$einfo_prefix/include"
-elif test "x$prefix" != "xNONE"; then
-  EINFO_CFLAGS="-I$prefix/include"
-fi
-
-AC_SUBST(EINFO_CFLAGS)
-AC_SUBST(EINFO_LIBS)
-CFLAGS="$CFLAGS $EINFO_CFLAGS"
-LIBS="$LIBS $EINFO_LIBS"
+AC_CHECK_FUNCS([sprintf strlen strdup])
 
 dnl ----------------------------------------
 

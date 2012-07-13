@@ -92,16 +92,16 @@ int main(int argc, char *argv[])
         }
 
         if (srcprog) {
-            eerror("%s: %s", srcprog, errmsg);
+            derror("%s: %s", srcprog, errmsg);
         } else {
-            eerror("%s", errmsg);
+            derror("%s", errmsg);
         }
     } else {
         errmsg = "success";
         if (srcprog) {
-            einfo("%s: %s", srcprog, errmsg);
+            dinfo("%s: %s", srcprog, errmsg);
         } else {
-            einfo("%s", errmsg);
+            dinfo("%s", errmsg);
         }
     }
 

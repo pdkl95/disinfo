@@ -105,7 +105,7 @@ CONFIG_CLEAN_VPATH_FILES =
 LIBRARIES = $(noinst_LIBRARIES)
 libdinfo_a_AR = $(AR) $(ARFLAGS)
 libdinfo_a_LIBADD =
-am_libdinfo_a_OBJECTS = common.$(OBJEXT)
+am_libdinfo_a_OBJECTS = color.$(OBJEXT) common.$(OBJEXT)
 libdinfo_a_OBJECTS = $(am_libdinfo_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -193,8 +193,6 @@ ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 EGREP = @EGREP@
-EINFO_CFLAGS = @EINFO_CFLAGS@
-EINFO_LIBS = @EINFO_LIBS@
 EMULTIHOP_HIDDEN = @EMULTIHOP_HIDDEN@
 EMULTIHOP_VALUE = @EMULTIHOP_VALUE@
 ENOLINK_HIDDEN = @ENOLINK_HIDDEN@
@@ -724,16 +722,19 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+AM_CPPFLAGS = -I$(top_builddir)/lib -I$(top_srcdir)/lib
+noinst_LIBRARIES = libdinfo.a
+libdinfo_a_SOURCES = \
+	color.c color.h \
+	common.c common.h
+
+LDADD = libdinfo.a $(top_builddir)/lib/libgnu.a
 EXTRA_DIST = mkerrors.sh
 BUILT_SOURCES = error_code_macros.h
 ERRNO_DEPS = \
 	/usr/include/asm-generic/errno-base.h \
 	/usr/include/asm-generic/errno.h
 
-AM_CPPFLAGS = -I$(top_builddir)/lib -I$(top_srcdir)/lib
-LDADD = libdinfo.a $(top_builddir)/lib/libgnu.a
-noinst_LIBRARIES = libdinfo.a
-libdinfo_a_SOURCES = common.c common.h
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -850,6 +851,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/color.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/common.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dbegin.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dend.Po@am__quote@
@@ -1088,8 +1090,6 @@ error_code_macros.h: mkerrors.sh $(ERRNO_DEPS)
 distclean-local: distclean-local-error_code_macros
 distclean-local-error_code_macros:
 	rm -f $(top_builddir)/src/error_code_macros.h
-
-#libdinfo_a_LDFLAGS = $(LTLIBINTL)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

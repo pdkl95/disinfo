@@ -49,7 +49,7 @@ common_options(int *argc_ptr, char **argv_ptr[])
 
     progname = base_name(*argv);
 
-    if (argc > 0) {
+    if (argc > 1) {
         if (!strcmp(argv[1], "--help")) {
             show_usage(stdout);
             exit(EXIT_SUCCESS);
@@ -135,4 +135,47 @@ strip_escape_codes(char *input_string)
     }
     *out = '\0';
     return str;
+}
+
+
+int dbegin(char *fmt, ...)
+{
+    int result;
+    va_list args;
+    va_start(args, fmt);
+
+    dmarker_info(stdout, true);
+
+    result = vfprintf(stdout, fmt, args);
+    fputs(" ...\n",stdout);
+
+    va_end(args);
+    return result;
+}
+
+int dend(int retval, char *fmt, ...)
+{
+    int result;
+    va_list args;
+    va_start(args, fmt);
+
+    if (retval) {
+        dmarker_error(stdout, true);
+        result = vfprintf(stdout, fmt, args);
+        fputs(" [ !! ]\n",stdout);
+    } else {
+        fputs("[ OK ]\n",stdout);
+    }
+    va_end(args);
+    return result;
+}
+
+int dindent(void)
+{
+    return 0;
+}
+
+int doutdent(void)
+{
+    return 0;
 }

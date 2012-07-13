@@ -24,6 +24,7 @@ char *local_usage = "";
 int main(int argc, char *argv[])
 {
     common_options(&argc, &argv);
-    eindent();
+
+    dindent();
     return EXIT_SUCCESS;
 }

@@ -26,6 +26,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdarg.h>
 #include <string.h>
 #include <errno.h>
 #include <einfo.h>
@@ -33,6 +34,8 @@
 #include "dirname.h"
 #include "execute.h"
 #include "xalloc.h"
+
+#include "color.h"
 
 #define USAGE_STANDARD_MESSAGE "<your message> [<more mesage> [...]]"
 extern char *progname;
@@ -46,5 +49,11 @@ void die(char *msg);
 
 char * argv2str(int argc, char *argv[]);
 char * strip_escape_codes(char *input_string);
+
+int dbegin(char *fmt, ...);
+int dend(int retval, char *fmt, ...);
+
+int dindent(void);
+int doutdent(void);
 
 #endif /*COMMON_H*/
