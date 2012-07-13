@@ -31,6 +31,7 @@ void usage(void)
 
 int main(int argc, char *argv[])
 {
+    int i;
     progname = *argv; //base_name(*argv); argv++;
 
     if (argc < 2) {
@@ -40,10 +41,13 @@ int main(int argc, char *argv[])
 
     char *cmdline = argv2str(argc, argv);
 
-    argv++;
-    char *prog = *argv;
-    char **prog_args = argv;
+    argc--; argv++;
 
+    char *prog = strip_escape_codes(*argv);
+    char **prog_args = malloc(sizeof(char *) * (argc+1));
+    for (i=0; i<argc; i++) {
+        prog_args[i] = strip_escape_codes(argv[i]);
+    }
     ebegin("EXEC: %s", cmdline);
 
     int retval = execute(prog, prog, prog_args,

@@ -1,7 +1,9 @@
 #!/bin/bash
 
-OUT="error_code_macros.h"
-HDR_LIST="\
+OUT="${1:-error_code_macros.h}" ; shift
+HDR_LIST="$@"
+
+[[ -z "${HDR_LIST}" ]] && HDR_LIST="\
 /usr/include/asm-generic/errno-base.h \
 /usr/include/asm-generic/errno.h"
 

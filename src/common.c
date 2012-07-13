@@ -42,3 +42,35 @@ argv2str(int argc, char *argv[])
 
     return str;
 }
+
+
+char *
+strip_escape_codes(char *input_string)
+{
+    char *str = strdup(input_string);
+    char *in, *out;
+    int c;
+
+    for (out = in = str; *in;  in++, out++) {
+        if (*in == '\e' && *(in+1) == '[') {
+            c=0;
+            do {
+                if (*in == '\0') {
+                    fprintf(stderr, "error: hit end of string while trying to stirp an escape code!");
+                    return str;
+                }
+                if (c > 20) {
+                    fprintf(stderr, "error: input has suspiciously long \"\\e[...m\" style escape code! giving up on filtering it!");
+                    return str;
+                } else {
+                    c++;
+                }
+                in++;
+            } while (*in != 'm');
+            in++;
+        }
+        *out = *in;
+    }
+    *out = '\0';
+    return str;
+}

@@ -31,6 +31,7 @@ void usage(void)
 
 int main(int argc, char *argv[])
 {
+    int i;
     progname = base_name(*argv); argv++;
 
     if (argc < 4) {
@@ -38,16 +39,25 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    char *message = *argv; argv++;
-    char *failmsg = *argv; argv++;
+    char *message = *argv; argv++; argc--;
+    char *failmsg = *argv; argv++; argc--;
     if (strlen(failmsg) < 1) {
         failmsg = message;
     }
 
     ebegin("%s", message);
 
-    char *prog = *argv;
-    int retval = execute(prog, prog, argv,
+    argc--;
+
+    char *prog = strip_escape_codes(*argv);
+    char **prog_args = malloc(sizeof(char *) * (argc+1));
+
+    for (i=0; i<argc; i++) {
+        prog_args[i] = strip_escape_codes(argv[i]);
+    }
+    prog_args[i] = NULL;
+
+    int retval = execute(prog, prog, prog_args,
                          false, /*ignore_sigpipe*/
                          false, /*null_stdin*/
                          false, /*null_stdout*/

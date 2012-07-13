@@ -24,6 +24,23 @@ bin_PROGRAMS = \
 	dexec dshowexec \
 	derrmsg
 
+EXTRA_DIST = mkerrors.sh
+BUILT_SOURCES = error_code_macros.h
+
+ERRNO_DEPS = \
+	/usr/include/asm-generic/errno-base.h \
+	/usr/include/asm-generic/errno.h
+
+error_code_macros.h: mkerrors.sh $(ERRNO_DEPS)
+	@echo '*** Generating the "errno" macros from the local errno.h ***'
+	cd $(top_builddir)/src && $(top_srcdir)/src/mkerrors.sh $@ $(ERRNO_DEPS)
+	@echo '*** Successfully extracted $() unique errno values! ***'
+
+
+distclean-local: distclean-local-error_code_macros
+distclean-local-error_code_macros:
+	rm -f $(top_builddir)/src/error_code_macros.h
+
 AM_CPPFLAGS = -I$(top_builddir)/lib -I$(top_srcdir)/lib
 
 LDADD = libdinfo.a $(top_builddir)/lib/libgnu.a

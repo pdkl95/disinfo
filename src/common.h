@@ -35,6 +35,6 @@
 #include "xalloc.h"
 
 char * argv2str(int argc, char *argv[]);
-
+char * strip_escape_codes(char *input_string);
 
 #endif /*COMMON_H*/
