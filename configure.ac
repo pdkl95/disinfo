@@ -17,16 +17,15 @@ dnl
 dnl You should have received a copy of the GNU General Public License
 dnl along with disinfo.  If not, see <http://www.gnu.org/licenses/>.
 
+AC_PREREQ([2.68])
 
-
-AC_PREREQ(2.60)
-AC_INIT([disinfo], [2.0], [disinfo@thoughtnoise.net])
+AC_INIT([disinfo],[1.2.0],[disinfo@thoughtnoise.net])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
+
 AM_INIT_AUTOMAKE([1.6 foreign no-define dist-bzip2 color-tests])
 
-AC_CONFIG_SRCDIR([dinfo.c])
-
+dnl AC_CONFIG_SRCDIR([dinfo.c])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_SRCDIR([src/dinfo.c])
 
@@ -37,11 +36,15 @@ AC_PROG_CC
 gl_EARLY
 gl_INIT
 
+dnl libraries
+AC_PROG_LIBTOOL
+
+
 dnl standard depends
 AC_TYPE_SIZE_T
 AC_FUNC_MALLOC
 AC_CHECK_HEADERS([stdlib.h string.h])
-AC_CHECK_FUNCS([sprintf strlen strdup])
+AC_CHECK_FUNCS([sprintf strlen])
 
 dnl ----------------------------------------
 

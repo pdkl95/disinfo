@@ -20,11 +20,15 @@
 AM_CPPFLAGS = -I$(top_builddir)/lib -I$(top_srcdir)/lib
 
 
-noinst_LIBRARIES = libcommon.a
-libcommon_a_SOURCES =     \
+lib_LTLIBRARIES = libdisinfo.la
+libdisinfo_la_SOURCES =   \
 	indent.c indent.h \
 	 color.c  color.h \
 	common.c common.h
+
+libdisinfo_la_LIBADD = $(top_builddir)/lib/libgnu.a
+
+LDADD = libdisinfo.la
 
 bin_PROGRAMS = \
 	dinfo dwarn derror \
@@ -32,8 +36,6 @@ bin_PROGRAMS = \
 	dindent doutdent \
 	dexec dshowexec \
 	derrmsg
-
-LDADD = libcommon.a $(top_builddir)/lib/libgnu.a
 
 
 EXTRA_DIST = mkerrors.sh
@@ -48,6 +50,7 @@ error_code_macros.h: mkerrors.sh $(ERRNO_DEPS)
 	cd $(top_builddir)/src && $(top_srcdir)/src/mkerrors.sh $@ $(ERRNO_DEPS)
 	@echo '*** Successfully extracted $() unique errno values! ***'
 
+clean-local:
 
 distclean-local: distclean-local-error_code_macros
 distclean-local-error_code_macros:

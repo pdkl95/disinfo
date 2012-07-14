@@ -1,7 +1,8 @@
 *.o
-error_code_macros.h
+*.lo
 lib*.a
 .deps
+error_code_macros.h
 dbegin
 dend
 derrmsg
