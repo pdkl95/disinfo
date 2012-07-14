@@ -27,7 +27,7 @@ indent_state_init(void)
     uid  = getuid();
     pid  = getpid();
     ppid = getppid();
-    printf("uid=%d ppid=%d pid=%d\n", uid, ppid, pid);
+    /* printf("uid=%d ppid=%d pid=%d\n", uid, ppid, pid); */
 
     if (asprintf(&istate_dir, "/tmp/.disinfo-%d", uid) < 0) {
         derror("disinfo: asprintf failed: %s", strerror(errno));
@@ -44,18 +44,18 @@ indent_state_init(void)
         derror("disinfo: asprintf failed: %s", strerror(errno));
         goto fail_istate_init;
     }
-    printf("file=\"%s\"\n", istate_file);
+    /* printf("file=\"%s\"\n", istate_file); */
 
     p = read_file(istate_file, &len);
     if ((len < 1) || !p || (*p == '\0')) {
         goto fail_istate_init;
     }
 
-    printf("%d byptes, [%s]\n", (int)len, p);
+    /* printf("%d byptes, [%s]\n", (int)len, p); */
 
     istate_depth = atoi(p);
     istate_depth_string = p;
-    printf("depth = %d\n", istate_depth);
+    /* printf("depth = %d\n", istate_depth); */
     return true;
 
   fail_istate_init:
@@ -70,15 +70,15 @@ indent_state_save(void)
     int fd;
     char *p;
 
-    printf("SAVE: %s value %d\n", istate_file, istate_depth);
+    /* printf("SAVE: %s value %d\n", istate_file, istate_depth); */
 
     if (!istate_file) {
-        dwarn("disinfo: no filename to save to");
+        dwarn("disinfo: no filename to save to! indent will fail!");
         goto fail_istate_save;
     }
 
     if (istate_depth < 1) {
-        dinfo("disinfo: istate_depth<1 -> jumpinto to unlink()");
+        /* dinfo("disinfo: istate_depth<1 -> jumpinto to unlink()"); */
         goto fail_istate_save;
     }
 
@@ -92,7 +92,7 @@ indent_state_save(void)
         derror("disinfo: asprintf failed: %s", strerror(errno));
         goto fail_istate_save;
     }
-    printf("p=\"%s\"\n", p);
+    /* printf("p=\"%s\"\n", p); */
     if (full_write(fd, p, strlen(p)) < strlen(p)) {
         derror("disinfo: write to failed: %s", strerror(errno));
         goto fail_istate_save;
@@ -102,9 +102,10 @@ indent_state_save(void)
     return 0;
 
   fail_istate_save:
-    if (unlink(istate_file)) {
-        derror("Unlink failed for: %s", istate_file);
-    }
+    unlink(istate_file);
+    /* if (unlink(istate_file)) { */
+    /*     derror("Unlink failed for: %s", istate_file); */
+    /* } */
     return 0;
 }
 

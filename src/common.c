@@ -161,8 +161,6 @@ int dend(int retval, char *fmt, ...)
     va_list args;
     va_start(args, fmt);
 
-    doutdent();
-
     if (retval) {
         dmarker_error(stdout, true);
         result = vfprintf(stdout, fmt, args);
@@ -170,6 +168,9 @@ int dend(int retval, char *fmt, ...)
     } else {
         fputs("[ OK ]\n",stdout);
     }
+
+    doutdent();
+
     va_end(args);
     return result;
 }

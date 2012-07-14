@@ -6,36 +6,56 @@ char *c_info  = "\e[1;32m";
 char *c_warn  = "\e[1;33m";
 char *c_error = "\e[1;31m";*/
 
-void dmarker_info(FILE *stream, bool pad)
+static char indent_buf[INDENT_WIDTH * INDENT_MAX + 1];
+
+static void
+puts_current_indent(FILE *stream)
+{
+    int len = INDENT_WIDTH * get_indent();
+    if (len) {
+        memset(indent_buf, ' ', len);
+        indent_buf[len] = '\0';
+        fputs(indent_buf, stream);
+    }
+}
+
+void
+dmarker_info(FILE *stream, bool pad)
 {
     if (pad) {
         fputs(DMARK_INFO_PAD, stream);
     } else {
         fputs(DMARK_INFO, stream);
     }
+    puts_current_indent(stream);
 }
 
-void dmarker_warn(FILE *stream, bool pad)
+void
+dmarker_warn(FILE *stream, bool pad)
 {
     if (pad) {
         fputs(DMARK_WARN_PAD, stream);
     } else {
         fputs(DMARK_WARN, stream);
     }
+    puts_current_indent(stream);
 }
 
-void dmarker_error(FILE *stream, bool pad)
+void
+dmarker_error(FILE *stream, bool pad)
 {
     if (pad) {
         fputs(DMARK_ERROR_PAD, stream);
     } else {
         fputs(DMARK_ERROR, stream);
     }
+    puts_current_indent(stream);
 }
 
 /****************************/
 
-int s_dinfo(FILE *stream, char *fmt, ...)
+int
+s_dinfo(FILE *stream, char *fmt, ...)
 {
     int result;
     va_list args;
@@ -48,7 +68,8 @@ int s_dinfo(FILE *stream, char *fmt, ...)
 }
 
 
-int s_dwarn(FILE *stream, char *fmt, ...)
+int
+s_dwarn(FILE *stream, char *fmt, ...)
 {
     int result;
     va_list args;
@@ -60,7 +81,8 @@ int s_dwarn(FILE *stream, char *fmt, ...)
     return result;
 }
 
-int s_derror(FILE *stream, char *fmt, ...)
+int
+s_derror(FILE *stream, char *fmt, ...)
 {
     int result;
     va_list args;
@@ -75,7 +97,8 @@ int s_derror(FILE *stream, char *fmt, ...)
 
 /*****************************/
 
-int dinfo(char *fmt, ...)
+int
+dinfo(char *fmt, ...)
 {
     int result;
     va_list args;
@@ -88,7 +111,8 @@ int dinfo(char *fmt, ...)
 }
 
 
-int dwarn(char *fmt, ...)
+int
+dwarn(char *fmt, ...)
 {
     int result;
     va_list args;
@@ -100,7 +124,8 @@ int dwarn(char *fmt, ...)
     return result;
 }
 
-int derror(char *fmt, ...)
+int
+derror(char *fmt, ...)
 {
     int result;
     va_list args;
