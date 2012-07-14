@@ -1,3 +1,5 @@
+disinfo-*.tar.gz
+disinfo-*.tar.bz2
 autom4te.cache
 config.h
 config.h.in~
@@ -5,9 +7,13 @@ config.log
 config.status
 Makefile
 stamp-h1
+src/.libs
 lib/.deps
+lib/.libs
 lib/*.o
+lib/*.lo
 lib/*.h
 lib/sys/*.h
-lib/libgnu.a
+lib/lib*.a
+lib/lib*.la
 */*~

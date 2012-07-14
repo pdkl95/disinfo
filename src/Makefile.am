@@ -26,7 +26,7 @@ libdisinfo_la_SOURCES =   \
 	 color.c  color.h \
 	common.c common.h
 
-libdisinfo_la_LIBADD = $(top_builddir)/lib/libgnu.a
+libdisinfo_la_LIBADD = $(top_builddir)/lib/libgnu.la
 
 LDADD = libdisinfo.la
 

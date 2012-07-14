@@ -1,6 +1,7 @@
 *.o
 *.lo
 lib*.a
+lib*.la
 .deps
 error_code_macros.h
 dbegin
