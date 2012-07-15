@@ -42,13 +42,28 @@
 #include "xalloc.h"
 #include "xvasprintf.h"
 
+#define ARGV_SHIFT (argc--, *(argv++))
+
+#ifdef HAVE_VA_ARGS
+#  define warn_vfprintf(fmt, ...) do {            \
+        if (vfprintf(fmt, __VA_ARGS__) < 0) {     \
+            die("failure in vfprintf");           \
+        }                                         \
+    } while(0)
+#else
+#  define warn_vfprintf vfpri
+#  warn "MISSIN support for __VA_ARGS__"
+#  warn "Error checks for some libarary calls are removed!"
+#endif
+
+
 #include "color.h"
 #include "indent.h"
+#include "framing.h"
 
 #define USAGE_STANDARD_MESSAGE "<your message> [<more mesage> [...]]"
 extern char *progname;
 extern char *local_usage;
-
 
 void show_Version(FILE *stream);
 void common_options(int *argc, char **argv[]);
@@ -57,8 +72,5 @@ void die(char *msg);
 
 char * argv2str(int argc, char *argv[]);
 char * strip_escape_codes(char *input_string);
-
-int dbegin(char *fmt, ...);
-int dend(int retval, char *fmt, ...);
 
 #endif /*COMMON_H*/

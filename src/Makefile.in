@@ -114,7 +114,8 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
 	$(top_srcdir)/m4/sys_stat_h.m4 $(top_srcdir)/m4/sys_types_h.m4 \
 	$(top_srcdir)/m4/sys_wait_h.m4 $(top_srcdir)/m4/time_h.m4 \
 	$(top_srcdir)/m4/unistd_h.m4 $(top_srcdir)/m4/unlink.m4 \
-	$(top_srcdir)/m4/vasnprintf.m4 $(top_srcdir)/m4/vasprintf.m4 \
+	$(top_srcdir)/m4/va-args.m4 $(top_srcdir)/m4/vasnprintf.m4 \
+	$(top_srcdir)/m4/vasprintf.m4 \
 	$(top_srcdir)/m4/vfprintf-posix.m4 \
 	$(top_srcdir)/m4/wait-process.m4 $(top_srcdir)/m4/waitpid.m4 \
 	$(top_srcdir)/m4/warn-on-use.m4 $(top_srcdir)/m4/wchar_h.m4 \
@@ -152,7 +153,7 @@ am__base_list = \
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libdisinfo_la_DEPENDENCIES = $(top_builddir)/lib/libgnu.la
-am_libdisinfo_la_OBJECTS = indent.lo color.lo common.lo
+am_libdisinfo_la_OBJECTS = framing.lo indent.lo color.lo common.lo
 libdisinfo_la_OBJECTS = $(am_libdisinfo_la_OBJECTS)
 PROGRAMS = $(bin_PROGRAMS)
 dbegin_SOURCES = dbegin.c
@@ -1253,9 +1254,10 @@ top_srcdir = @top_srcdir@
 AM_CPPFLAGS = -I$(top_builddir)/lib -I$(top_srcdir)/lib
 lib_LTLIBRARIES = libdisinfo.la
 libdisinfo_la_SOURCES = \
-	indent.c indent.h \
-	 color.c  color.h \
-	common.c common.h
+	framing.c framing.h \
+	indent.c  indent.h  \
+	color.c   color.h   \
+	common.c  common.h
 
 libdisinfo_la_LIBADD = $(top_builddir)/lib/libgnu.la
 LDADD = libdisinfo.la
@@ -1425,6 +1427,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/doutdent.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dshowexec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dwarn.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/framing.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/indent.Plo@am__quote@
 
 .c.o:

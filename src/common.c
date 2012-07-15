@@ -47,7 +47,7 @@ common_options(int *argc_ptr, char **argv_ptr[])
     int    argc = *argc_ptr;
     char **argv = *argv_ptr;
 
-    progname = base_name(*argv);
+    progname = base_name(ARGV_SHIFT);
 
     if (argc > 1) {
         if (!strcmp(argv[1], "--help")) {
@@ -80,7 +80,6 @@ die(char *msg)
 }
 
 
-
 char *
 argv2str(int argc, char *argv[])
 {
@@ -88,13 +87,13 @@ argv2str(int argc, char *argv[])
     int i;
     char *str, *p;
 
-    for(i=1; i<argc; i++) {
+    for(i=0; i<argc; i++) {
         len += 1 + strlen(argv[i]);
     }
 
     p = str = (char *)xmalloc(1 + len * sizeof(char));
 
-    for(i=1; i<argc; i++) {
+    for(i=0; i<argc; i++) {
         sprintf(p, "%s ", argv[i]);
         p += strlen(p);
     }
@@ -135,42 +134,4 @@ strip_escape_codes(char *input_string)
     }
     *out = '\0';
     return str;
-}
-
-
-int dbegin(char *fmt, ...)
-{
-    int result;
-    va_list args;
-    va_start(args, fmt);
-
-    dmarker_info(stdout, true);
-
-    result = vfprintf(stdout, fmt, args);
-    fputs(" ...\n",stdout);
-
-    dindent();
-
-    va_end(args);
-    return result;
-}
-
-int dend(int retval, char *fmt, ...)
-{
-    int result;
-    va_list args;
-    va_start(args, fmt);
-
-    if (retval) {
-        dmarker_error(stdout, true);
-        result = vfprintf(stdout, fmt, args);
-        fputs(" [ !! ]\n",stdout);
-    } else {
-        fputs("[ OK ]\n",stdout);
-    }
-
-    doutdent();
-
-    va_end(args);
-    return result;
 }

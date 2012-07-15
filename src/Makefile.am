@@ -21,10 +21,11 @@ AM_CPPFLAGS = -I$(top_builddir)/lib -I$(top_srcdir)/lib
 
 
 lib_LTLIBRARIES = libdisinfo.la
-libdisinfo_la_SOURCES =   \
-	indent.c indent.h \
-	 color.c  color.h \
-	common.c common.h
+libdisinfo_la_SOURCES =     \
+	framing.c framing.h \
+	indent.c  indent.h  \
+	color.c   color.h   \
+	common.c  common.h
 
 libdisinfo_la_LIBADD = $(top_builddir)/lib/libgnu.la
 

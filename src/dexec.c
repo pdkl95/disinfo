@@ -28,39 +28,16 @@ int main(int argc, char *argv[])
     int i;
     common_options(&argc, &argv);
 
-    if (argc < 4) {
+    if (argc < 3) {
         die_usage("missing requried parameters!");
     }
 
-    argv++;
+    char *message = ARGV_SHIFT;
+    char *failmsg = ARGV_SHIFT;
 
-    char *message = *argv; argv++; argc--;
-    char *failmsg = *argv; argv++; argc--;
     if (strlen(failmsg) < 1) {
         failmsg = message;
     }
 
-    dbegin("%s", message);
-
-    argc--;
-
-    char *prog = strip_escape_codes(*argv);
-    char **prog_args = malloc(sizeof(char *) * (argc+1));
-
-    for (i=0; i<argc; i++) {
-        prog_args[i] = strip_escape_codes(argv[i]);
-    }
-    prog_args[i] = NULL;
-
-    int retval = execute(prog, prog, prog_args,
-                         false, /*ignore_sigpipe*/
-                         false, /*null_stdin*/
-                         false, /*null_stdout*/
-                         false, /*null_stderr*/
-                         true,  /*slave_process*/
-                         false, /*exit_on_error*/
-                         NULL); /*termsigp*/
-
-    dend(retval, "%s", failmsg);
-    return retval;
+    return dexec(message, failmsg, argc, argv);;
 }

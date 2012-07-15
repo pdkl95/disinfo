@@ -46,6 +46,9 @@ AC_FUNC_MALLOC
 AC_CHECK_HEADERS([stdlib.h string.h])
 AC_CHECK_FUNCS([sprintf strlen])
 
+dnl other libraries not covered by gnulib
+AX_WITH_CURSES
+
 dnl ----------------------------------------
 
 AC_CONFIG_FILES([Makefile

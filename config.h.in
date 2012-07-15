@@ -1378,6 +1378,10 @@
 /* Define to 1 if you have the `vasprintf' function. */
 #undef HAVE_VASPRINTF
 
+/* Define to 1 if the preprocessor supports variadic macros and __VA_ARGS__.
+   */
+#undef HAVE_VA_ARGS
+
 /* Define to 1 if you have the `vfork' function. */
 #undef HAVE_VFORK
 

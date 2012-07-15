@@ -109,3 +109,6 @@
 /printf-frexpl.m4
 /signbit.m4
 /vfprintf-posix.m4
+/va-args.m4
+/manywarnings.m4
+/warnings.m4

@@ -29,15 +29,26 @@ char *errmsg;
 
 #define ERR_UNKNOWN -1
 
-
-
 int parse_err_name(char *str)
 {
-#define E(name) if (!strcmp("E" #name, str)) { return E##name; }
-#define REPL(A,B) if (!strcmp(#A, str)) { str = #B; }
 
-    REPL(EDEADLOCK,   EDEADLK);
-    REPL(EWOULDBLOCK, EAGAIN);
+#define REPL(A,B) do {                          \
+        if (!strcmp("E" #A, str) ||             \
+            !strcmp(#A, str)) {                 \
+            str = #B;                           \
+        }                                       \
+    } while(0)
+
+    REPL(DEADLOCK,   EDEADLK);
+    REPL(WOULDBLOCK, EAGAIN);
+
+#define E(name) do {               \
+        if (!strcmp("E" #name, str) ||          \
+            !strcmp(#name, str)) {              \
+            return E##name;                     \
+        }                                       \
+    } while(0)
+
 
 #include "error_code_macros.h"
 
@@ -62,17 +73,13 @@ int main(int argc, char *argv[])
     common_options(&argc, &argv);
 
     if (argc > 0) {
-        err = argv[1];
-        argc--;
-        argv++;
+        err = ARGV_SHIFT;
     } else {
         die_usage("Missing: <errno>");
     }
 
     if (argc > 0) {
-        srcprog = argv[1];
-        argc--;
-        argv++;
+        srcprog = ARGV_SHIFT;
     } else {
         srcprog = NULL;
     }
