@@ -1,9 +1,12 @@
 #include "common.h"
 #include "indent.h"
 
+int   istate_total = 0;
 int   istate_depth = 0;
+int   istate_depth_max = 0;
 char *istate_depth_string = NULL;
-
+int   istate_env   = 0;
+char *istate_env_str = NULL;
 
 static uid_t uid;
 static pid_t pid;
@@ -11,7 +14,6 @@ static pid_t ppid;
 
 static char *istate_dir;
 static char *istate_file;
-
 
 
 bool
@@ -23,6 +25,17 @@ indent_state_init(void)
     if (istate_depth_string) {
         return true;
     }
+
+    istate_env_str = getenv(ENVNAME_ADD_INDENT);
+    if (istate_env_str) {
+        istate_env = atoi(istate_env_str);
+    } else {
+        istate_env = 0;
+    }
+    if (istate_env > INDENT_MAX) {
+        istate_env = INDENT_MAX;
+    }
+    istate_depth_max = INDENT_MAX - istate_env;
 
     uid  = getuid();
     pid  = getpid();
@@ -56,6 +69,7 @@ indent_state_init(void)
     istate_depth = atoi(p);
     istate_depth_string = p;
     /* printf("depth = %d\n", istate_depth); */
+
     return true;
 
   fail_istate_init:
@@ -115,8 +129,8 @@ dindent(void)
     indent_state_init();
 
     istate_depth += 1;
-    if (istate_depth > INDENT_MAX) {
-        istate_depth = INDENT_MAX;
+    if (istate_depth > istate_depth_max) {
+        istate_depth = istate_depth_max;
     }
 
     return indent_state_save();
@@ -139,5 +153,5 @@ int
 get_indent(void)
 {
     indent_state_init();
-    return istate_depth;
+    return istate_depth + istate_env;
 }

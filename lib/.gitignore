@@ -147,3 +147,14 @@
 /xstrndup.h
 /xvasprintf.c
 /xvasprintf.h
+/ioctl.c
+/stdalign.in.h
+/sys_ioctl.in.h
+/sys_socket.in.h
+/sys_uio.in.h
+/w32sock.h
+/inttypes.in.h
+/isatty.c
+/strtoimax.c
+/strtol.c
+/strtoll.c

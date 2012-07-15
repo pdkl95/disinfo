@@ -26,12 +26,9 @@ int main(int argc, char *argv[])
     common_options(&argc, &argv);
 
     int retval=0;
-    if (argc > 1) {
-        retval = atoi(argv[1]);
-        argc--;
-        argv++;
+    if (argc > 0) {
+        retval = atoi(ARGV_SHIFT);
     }
-
     dend(retval, "%s",argv2str(argc, argv));
     return retval;
 }

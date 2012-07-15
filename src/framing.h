@@ -1,6 +1,8 @@
 #ifndef FRAMING_H
 #define FRAMING_H
 
+#define DEFAULT_TERMINAL_COLUMNS 80
+
 int dbegin(char *fmt, ...);
 int dend(int retval, char *fmt, ...);
 int dexec_argv(int argc, char **argv);

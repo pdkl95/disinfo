@@ -27,7 +27,7 @@
 
 
 # Specification in the form of a command-line invocation:
-#   gnulib-tool --import --dir=. --lib=libgnu --source-base=lib --m4-base=m4 --doc-base=doc --tests-base=tests --aux-dir=build-aux --conditional-dependencies --libtool --macro-prefix=gl ctype dirname errno execute full-write isdir manywarnings mkdir open read-file stdarg stdbool strdup-posix strerror sys_types unistd unlink va-args vfprintf-posix xalloc xvasprintf
+#   gnulib-tool --import --dir=. --lib=libgnu --source-base=lib --m4-base=m4 --doc-base=doc --tests-base=tests --aux-dir=build-aux --conditional-dependencies --libtool --macro-prefix=gl ctype dirname errno execute full-write ioctl isatty isdir manywarnings mkdir open read-file stdarg stdbool strdup-posix strerror strtoimax sys_types unistd unlink va-args vfprintf-posix xalloc xvasprintf
 
 # Specification in the form of a few gnulib-tool.m4 macro invocations:
 gl_LOCAL_DIR([])
@@ -37,6 +37,8 @@ gl_MODULES([
   errno
   execute
   full-write
+  ioctl
+  isatty
   isdir
   manywarnings
   mkdir
@@ -46,6 +48,7 @@ gl_MODULES([
   stdbool
   strdup-posix
   strerror
+  strtoimax
   sys_types
   unistd
   unlink
