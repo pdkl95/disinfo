@@ -28,6 +28,7 @@ libdisinfo_la_SOURCES =     \
 	common.c  common.h
 
 libdisinfo_la_LIBADD = $(top_builddir)/lib/libgnu.la @CURSES_LIB@
+libdisinfo_la_LDFLAGS = -version-number $(subst .,:,$(PACKAGE_VERSION))
 
 LDADD = libdisinfo.la
 
