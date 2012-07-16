@@ -46,21 +46,22 @@
 #define ARGV_SHIFT (argc--, *(argv++))
 
 #ifdef HAVE_VA_ARGS
-#  define warn_vfprintf(fmt, ...) do {            \
+#  define safe_asprintf(fmt, ...) do {            \
+        if (asprintf(fmt, __VA_ARGS__) < 0) {     \
+            die_errno("failure in asprintf");     \
+        }                                         \
+    } while(0)
+#  define safe_vfprintf(fmt, ...) do {            \
         if (vfprintf(fmt, __VA_ARGS__) < 0) {     \
-            die("failure in vfprintf");           \
+            die_errno("failure in vfprintf");     \
         }                                         \
     } while(0)
 #else
-#  define warn_vfprintf vfpri
+#  define safe_asprintf asprintf
+#  define safe_vfprintf vfprintf
 #  warn "MISSIN support for __VA_ARGS__"
 #  warn "Error checks for some libarary calls are removed!"
 #endif
-
-
-#include "color.h"
-#include "indent.h"
-#include "framing.h"
 
 #define USAGE_STANDARD_MESSAGE "<your message> [<more mesage> [...]]"
 extern char *progname;
@@ -68,10 +69,17 @@ extern char *local_usage;
 
 void show_Version(FILE *stream);
 void common_options(int *argc, char **argv[]);
+
 void die_usage(char *msg);
 void die(char *msg);
+void die_errno(char *msg);
 
 char * argv2str(int argc, char *argv[]);
 char * strip_escape_codes(char *input_string);
+
+
+#include "color.h"
+#include "indent.h"
+#include "framing.h"
 
 #endif /*COMMON_H*/

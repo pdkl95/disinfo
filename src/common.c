@@ -75,10 +75,16 @@ die_usage(char *msg)
 void
 die(char *msg)
 {
-    fprintf(stderr, "%s: ERROR: %s\n", progname, msg);
+    fprintf(stderr, "%s: ERROR: %s", progname, msg);
     exit(EXIT_FAILURE);
 }
 
+void
+die_errno(char *msg)
+{
+    fprintf(stderr, "%s: ERROR: %s: %s", progname, msg, strerror(errno));
+    exit(EXIT_FAILURE);
+}
 
 char *
 argv2str(int argc, char *argv[])

@@ -119,22 +119,25 @@ int rprint(FILE *stream, char *msg_color, char *msg)
 
 int dend(int retval, char *fmt, ...)
 {
+    char *errmsg;
+
     va_list args;
     va_start(args, fmt);
 
+    doutdent();
+
     if (retval) {
         dmarker_error(stdout, true);
-        warn_vfprintf(stdout, fmt, args);
+        safe_vfprintf(stdout, fmt, args);
         fputs("\n", stdout);
     }
 
     if (retval) {
-        rprint(stdout, COLOR_ERROR, "*ERR*");
+        safe_asprintf(&errmsg,  "ERR=%d", retval);
+        rprint(stdout, COLOR_ERROR, errmsg);
     } else {
         rprint(stdout, COLOR_INFO, "OK");
     }
-
-    doutdent();
 
     va_end(args);
     return retval;
@@ -146,19 +149,10 @@ dexec_argv(int argc, char **argv)
     int i;
     char * add_indent;
 
-    char *prog = strip_escape_codes(ARGV_SHIFT);
-    char **arglist = malloc(sizeof(char *) * (argc+1));
+    char *prog = strip_escape_codes(*argv);
 
-    /* for (i=0; i<argc; i++) { */
-    /*     arglist[i] = strip_escape_codes(argv[i]); */
-    /* } */
-
-    arglist[0] = prog;
-    i=1;
-
-    while(argc) {
-        arglist[i] = ARGV_SHIFT;
-        i++;
+    for (i=1; i<argc; i++) {
+        argv[i] = strip_escape_codes(argv[i]);
     }
 
     if (asprintf(&add_indent, "%d", get_indent()) < 0) {
@@ -166,7 +160,7 @@ dexec_argv(int argc, char **argv)
     }
     setenv(ENVNAME_ADD_INDENT, add_indent, 1);
 
-    return execute(prog, prog, arglist,
+    return execute(prog, prog, argv,
                    false, /*ignore_sigpipe*/
                    false, /*null_stdin*/
                    false, /*null_stdout*/
@@ -189,6 +183,4 @@ dshowexec(int argc, char **argv)
 {
     char *cmdline = argv2str(argc, argv);
     return dexec(cmdline, cmdline, argc, argv);
-    //dbegin("%s", cmdline);
-    //return dend(dexec(argc, argv), "%s", cmdline);
 }
