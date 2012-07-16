@@ -26,5 +26,11 @@ int main(int argc, char *argv[])
     common_options(&argc, &argv);
 
     derror("%s",argv2str(argc, argv));
-    return EXIT_SUCCESS;
+
+    /*
+     * NOTE! This is FAILURE, not SUCCESS, beause the error
+     *       code needs to be failure when it propogates back
+     *       up the stack.
+     */
+    return EXIT_FAILURE;
 }

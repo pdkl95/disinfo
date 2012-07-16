@@ -112,7 +112,7 @@ int rprint(FILE *stream, char *msg_color, char *msg)
     }
 
     char *term_mv = tgoto(term_ch, 0, cols);
-    return fprintf(stream, "%s%s %s[%s %s %s]%s\n", term_up, term_mv,
+    return fprintf(stream, "%s%s %s[%s%s%s]%s\n", term_up, term_mv,
                    bracket_color, msg_color, msg,
                    bracket_color, COLOR_NC);
 }
@@ -133,10 +133,10 @@ int dend(int retval, char *fmt, ...)
     }
 
     if (retval) {
-        safe_asprintf(&errmsg,  "ERR=%d", retval);
+        safe_asprintf(&errmsg,  "%03d*", retval);
         rprint(stdout, COLOR_ERROR, errmsg);
     } else {
-        rprint(stdout, COLOR_INFO, "OK");
+        rprint(stdout, COLOR_INFO, " OK ");
     }
 
     va_end(args);

@@ -11,11 +11,13 @@ static char indent_buf[INDENT_WIDTH * INDENT_MAX + 1];
 static void
 puts_current_indent(FILE *stream)
 {
-    int len = INDENT_WIDTH * get_indent();
-    if (len) {
-        memset(indent_buf, ' ', len);
-        indent_buf[len] = '\0';
-        fputs(indent_buf, stream);
+    int c = get_indent();
+    char *str = getenv("DISINFO_INDENT_STRING");
+    if (!str) {
+        str = INDENT_STRING;
+    }
+    for (int i=0; i<c; i++) {
+        fputs(str, stream);
     }
 }
 

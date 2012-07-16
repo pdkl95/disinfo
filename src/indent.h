@@ -3,7 +3,8 @@
 
 #define ENVNAME_ADD_INDENT "DISINFO_INDENT_MORE"
 
-#define INDENT_WIDTH 4
+#define INDENT_STRING "  "
+#define INDENT_WIDTH sizeof (INDENT_STRING)
 #define INDENT_MAX 40
 
 int get_indent(void);
