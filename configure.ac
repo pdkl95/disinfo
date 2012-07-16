@@ -19,7 +19,7 @@ dnl along with disinfo.  If not, see <http://www.gnu.org/licenses/>.
 
 AC_PREREQ([2.68])
 
-AC_INIT([disinfo],[0.3.3],[disinfo@thoughtnoise.net])
+AC_INIT([disinfo],[0.3.4],[disinfo@thoughtnoise.net])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 
