@@ -184,3 +184,15 @@ dshowexec(int argc, char **argv)
     char *cmdline = argv2str(argc, argv);
     return dexec(cmdline, cmdline, argc, argv);
 }
+
+int
+dshowonerror(int argc, char **argv)
+{
+    char *cmdline;
+    int retval = dexec_argv(argc, argv);
+    if (retval) {
+        cmdline = argv2str(argc, argv);
+        derror("ERROR(%d): %s", retval, cmdline);
+    }
+    return retval;
+}

@@ -13,4 +13,5 @@ dindent
 dinfo
 doutdent
 dshowexec
+dshowonerror
 dwarn

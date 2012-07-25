@@ -36,7 +36,7 @@ bin_PROGRAMS = \
 	dinfo dwarn derror \
 	dbegin dend \
 	dindent doutdent \
-	dexec dshowexec \
+	dexec dshowexec dshowonerror \
 	derrmsg
 
 

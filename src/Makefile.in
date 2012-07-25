@@ -57,7 +57,7 @@ host_triplet = @host@
 bin_PROGRAMS = dinfo$(EXEEXT) dwarn$(EXEEXT) derror$(EXEEXT) \
 	dbegin$(EXEEXT) dend$(EXEEXT) dindent$(EXEEXT) \
 	doutdent$(EXEEXT) dexec$(EXEEXT) dshowexec$(EXEEXT) \
-	derrmsg$(EXEEXT)
+	dshowonerror$(EXEEXT) derrmsg$(EXEEXT)
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -200,6 +200,10 @@ dshowexec_SOURCES = dshowexec.c
 dshowexec_OBJECTS = dshowexec.$(OBJEXT)
 dshowexec_LDADD = $(LDADD)
 dshowexec_DEPENDENCIES = libdisinfo.la
+dshowonerror_SOURCES = dshowonerror.c
+dshowonerror_OBJECTS = dshowonerror.$(OBJEXT)
+dshowonerror_LDADD = $(LDADD)
+dshowonerror_DEPENDENCIES = libdisinfo.la
 dwarn_SOURCES = dwarn.c
 dwarn_OBJECTS = dwarn.$(OBJEXT)
 dwarn_LDADD = $(LDADD)
@@ -218,10 +222,11 @@ LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
 SOURCES = $(libdisinfo_la_SOURCES) dbegin.c dend.c derrmsg.c derror.c \
-	dexec.c dindent.c dinfo.c doutdent.c dshowexec.c dwarn.c
+	dexec.c dindent.c dinfo.c doutdent.c dshowexec.c \
+	dshowonerror.c dwarn.c
 DIST_SOURCES = $(libdisinfo_la_SOURCES) dbegin.c dend.c derrmsg.c \
 	derror.c dexec.c dindent.c dinfo.c doutdent.c dshowexec.c \
-	dwarn.c
+	dshowonerror.c dwarn.c
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -1466,6 +1471,9 @@ doutdent$(EXEEXT): $(doutdent_OBJECTS) $(doutdent_DEPENDENCIES)
 dshowexec$(EXEEXT): $(dshowexec_OBJECTS) $(dshowexec_DEPENDENCIES) 
 	@rm -f dshowexec$(EXEEXT)
 	$(LINK) $(dshowexec_OBJECTS) $(dshowexec_LDADD) $(LIBS)
+dshowonerror$(EXEEXT): $(dshowonerror_OBJECTS) $(dshowonerror_DEPENDENCIES) 
+	@rm -f dshowonerror$(EXEEXT)
+	$(LINK) $(dshowonerror_OBJECTS) $(dshowonerror_LDADD) $(LIBS)
 dwarn$(EXEEXT): $(dwarn_OBJECTS) $(dwarn_DEPENDENCIES) 
 	@rm -f dwarn$(EXEEXT)
 	$(LINK) $(dwarn_OBJECTS) $(dwarn_LDADD) $(LIBS)
@@ -1487,6 +1495,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dinfo.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/doutdent.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dshowexec.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dshowonerror.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dwarn.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/framing.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/indent.Plo@am__quote@
