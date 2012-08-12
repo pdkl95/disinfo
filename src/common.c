@@ -75,14 +75,14 @@ die_usage(char *msg)
 void
 die(char *msg)
 {
-    fprintf(stderr, "%s: ERROR: %s", progname, msg);
+    fprintf(stderr, "%s: ERROR: %s\n", progname, msg);
     exit(EXIT_FAILURE);
 }
 
 void
 die_errno(char *msg)
 {
-    fprintf(stderr, "%s: ERROR: %s: %s", progname, msg, strerror(errno));
+    fprintf(stderr, "%s: ERROR: %s: %s\n", progname, msg, strerror(errno));
     exit(EXIT_FAILURE);
 }
 
@@ -123,11 +123,11 @@ strip_escape_codes(char *input_string)
             c=0;
             do {
                 if (*in == '\0') {
-                    fprintf(stderr, "error: hit end of string while trying to stirp an escape code!");
+                    fprintf(stderr, "error: hit end of string while trying to stirp an escape code!\n");
                     return str;
                 }
                 if (c > 20) {
-                    fprintf(stderr, "error: input has suspiciously long \"\\e[...m\" style escape code! giving up on filtering it!");
+                    fprintf(stderr, "error: input has suspiciously long \"\\e[...m\" style escape code! giving up on filtering it!\n");
                     return str;
                 } else {
                     c++;
