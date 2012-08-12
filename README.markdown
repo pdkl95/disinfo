@@ -16,7 +16,7 @@ Installing
 
 Just clone the repository and build it in standard GNU-autotools style:
 
-    git clone git@github.com:pdkl95/disinfo.git
+    git clone https://github.com/pdkl95/disinfo.git
     cd disinfo
     ./configure
     make
