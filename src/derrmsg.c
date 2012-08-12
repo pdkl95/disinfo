@@ -99,14 +99,22 @@ int main(int argc, char *argv[])
         }
 
         if (srcprog) {
-            derror("%s: %s", srcprog, errmsg);
+            if (argc) {
+                derror("%s: %s - %s", srcprog, errmsg, argv2str(argc, argv));
+            } else {
+                derror("%s: %s", srcprog, errmsg);
+            }
         } else {
             derror("%s", errmsg);
         }
     } else {
         errmsg = "success";
         if (srcprog) {
-            dinfo("%s: %s", srcprog, errmsg);
+            if (argc) {
+                dinfo("%s: %s - %s", srcprog, errmsg, argv2str(argc, argv));
+            } else {
+                dinfo("%s: %s", srcprog, errmsg);
+            }
         } else {
             dinfo("%s", errmsg);
         }
