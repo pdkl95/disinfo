@@ -21,15 +21,13 @@
 
 char *local_usage = "<ERRNO> [<calling_program_name>]";
 
-char *err;
-char *srcprog;
 
-int   errnum;
-char *errmsg;
+
 
 #define ERR_UNKNOWN -1
 
-int parse_err_name(char *str)
+int
+parse_err_name(char *str)
 {
 
 #define REPL(A,B) do {                          \
@@ -58,7 +56,8 @@ int parse_err_name(char *str)
     return ERR_UNKNOWN;
 }
 
-bool is_int(char *s)
+bool
+is_int(char *s)
 {
     for (; *s; s++) {
         if (!isdigit(*s)) {
@@ -68,8 +67,52 @@ bool is_int(char *s)
     return true;
 }
 
-int main(int argc, char *argv[])
+int
+derrmsg_print(int (*func)(char *, ...), char *errstr,
+              char *program_name, char *extra_message)
 {
+    if (program_name) {
+        if (extra_message) {
+            func("%s: %s - %s", program_name, errstr, extra_message);
+        } else {
+            func("%s: %s", program_name, errstr);
+        }
+    } else {
+        func("%s", errstr);
+    }
+}
+
+int
+derrmsg(int errnum, char *program_name, char *extra_message)
+{
+    if (errnum) {
+        if (ERR_UNKNOWN == errnum) {
+            derrmsg_print(derror, "unknown error",
+                          program_name, extra_message);
+        } else {
+            derrmsg_print(derror, strerror(errnum),
+                          program_name, extra_message);
+        }
+    } else {
+        derrmsg_print(dinfo, "success",
+                      program_name, extra_message);
+    }
+
+    if (errnum > 127) {
+        return EXIT_FAILURE;
+    } else {
+        return errnum;
+    }
+}
+
+int
+main(int argc, char *argv[])
+{
+    char *err;
+    int   errnum;
+    char *srcprog;
+    char *extra = NULL;
+
     common_options(&argc, &argv);
 
     if (argc > 0) {
@@ -78,52 +121,9 @@ int main(int argc, char *argv[])
         die_usage("Missing: <errno>");
     }
 
-    if (argc > 0) {
-        srcprog = ARGV_SHIFT;
-    } else {
-        srcprog = NULL;
-    }
+    srcprog =  (argc > 0) ? ARGV_SHIFT           : NULL;
+    errnum  = is_int(err) ? atoi(err)            : parse_err_name(err);
+    extra   =        argc ? argv2str(argc, argv) : NULL;
 
-    if (is_int(err)) {
-        errnum = atoi(err);
-    } else {
-        errnum = parse_err_name(err);
-    }
-
-
-    if (errnum) {
-        if (ERR_UNKNOWN == errnum) {
-            errmsg = "unknown error";
-        } else {
-            errmsg = strerror(errnum);
-        }
-
-        if (srcprog) {
-            if (argc) {
-                derror("%s: %s - %s", srcprog, errmsg, argv2str(argc, argv));
-            } else {
-                derror("%s: %s", srcprog, errmsg);
-            }
-        } else {
-            derror("%s", errmsg);
-        }
-    } else {
-        errmsg = "success";
-        if (srcprog) {
-            if (argc) {
-                dinfo("%s: %s - %s", srcprog, errmsg, argv2str(argc, argv));
-            } else {
-                dinfo("%s: %s", srcprog, errmsg);
-            }
-        } else {
-            dinfo("%s", errmsg);
-        }
-    }
-
-    // force all out-of-range codes to a generic code
-    if (errnum > 127) {
-        return EXIT_FAILURE;
-    } else {
-        return errnum;
-    }
+    return derrmsg(errnum, srcprog, extra);
 }
